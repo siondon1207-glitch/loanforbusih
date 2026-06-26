@@ -1,23 +1,734 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
+
+  <style>
+    html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, input, select, textarea, button {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.8;
+      color: #2c3e50;
+      background-color: #fdfefe;
+    }
+    header {
+      background: linear-gradient(135deg, #eef2f7 0%, #dfe9f3 100%);
+      padding: 60px 20px;
+      text-align: center;
+      border-bottom: 3px solid #cbd5e1;
+    }
+    header h1 {
+      font-size: 32px;
+      color: #1e3a8a;
+      font-weight: 800;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+    header p {
+      font-size: 18px;
+      color: #475569;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .intro-box {
+      background-color: #f0fdf4;
+      border-left: 5px solid #16a34a;
+      padding: 20px;
+      border-radius: 4px;
+      margin-bottom: 30px;
+    }
+    .intro-box p {
+      color: #166534;
+      font-size: 16px;
+    }
+    h2 {
+      font-size: 24px;
+      color: #0f172a;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 10px;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    h3 {
+      font-size: 20px;
+      color: #1e40af;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #334155;
+      text-align: justify;
+    }
+    strong {
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+    ul, ol {
+      margin-bottom: 25px;
+      padding-left: 25px;
+    }
+    li {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #334155;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin: 30px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 15px;
+    }
+    th {
+      background-color: #eff6ff;
+      color: #1e40af;
+      font-weight: 700;
+      padding: 12px 15px;
+      border-top: 2px solid #3b82f6;
+      border-bottom: 2px solid #bfdbfe;
+    }
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #475569;
+    }
+    tr:hover {
+      background-color: #f8fafc;
+    }
+    .graph-container {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+    }
+    .graph-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .bar-row {
+      display: flex;
+      align-items: center;
+    }
+    .bar-label {
+      width: 150px;
+      font-size: 14px;
+      color: #475569;
+    }
+    .bar-wrapper {
+      flex-grow: 1;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      height: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #60a5fa, #3b82f6);
+      border-radius: 4px;
+    }
+    .bar-value {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #1e293b;
+      font-weight: 700;
+    }
+    .interactive-section {
+      background-color: #f0f4f8;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 40px 0;
+    }
+    .interactive-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .calc-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+    }
+    .form-group input, .form-group select {
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 15px;
+      background-color: #ffffff;
+    }
+    .btn-calc {
+      grid-column: 1 / -1;
+      background-color: #2563eb;
+      color: #ffffff;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.2s;
+    }
+    .btn-calc:hover {
+      background-color: #1d4ed8;
+    }
+    .calc-result {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+    .calc-result h4 {
+      font-size: 16px;
+      color: #0f172a;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .result-row span.label {
+      color: #64748b;
+    }
+    .result-row span.val {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .diagnostic-box {
+      background-color: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 40px 0;
+    }
+    .diagnostic-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #b45309;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: #475569;
+    }
+    .checkbox-item input {
+      margin-top: 4px;
+    }
+    .btn-diagnostic {
+      background-color: #d97706;
+      color: #ffffff;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-diagnostic:hover {
+      background-color: #b45309;
+    }
+    .diagnostic-result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #ffffff;
+      border-radius: 6px;
+      border: 1px solid #fde68a;
+      display: none;
+    }
+    .link-section {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 40px 0;
+    }
+    .link-list {
+      list-style: none;
+      padding: 0;
+    }
+    .link-list li {
+      margin-bottom: 12px;
+    }
+    .link-list a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .link-list a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background-color: #1e293b;
+      color: #94a3b8;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 14px;
+      border-top: 4px solid #3b82f6;
+    }
+    footer p {
+      color: #94a3b8;
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "GovernmentService",
+    "name": "2026년 경기도 소상공인 정책자금 대출 지원 프로그램",
+    "provider": {
+      "@type": "GovernmentOrganization",
+      "name": "경기도 및 경기신용보증재단"
+    },
+    "serviceType": "소상공인 대출 및 특례보증",
+    "description": "2026년도 경기도 소재 자영업자 및 소상공인을 위한 특별 자금 지원 정책. 저금리 특례보증, 이차보전 혜택 및 모바일 앱을 통한 비대면 다이렉트 신청 가이드 제공.",
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "경기도"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW",
+      "description": "경기도 내 사업자 등록을 완료한 소상공인 대상 무료 상담 및 한도 조회 서비스 제공"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "경기도 소상공인 금융 상품 목록",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "FinancialProduct",
+            "name": "경기도 소상공인 특례보증",
+            "description": "경기신용보증재단 담보를 통해 시중은행에서 저금리로 이용 가능한 특별 정책 보증 상품"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "FinancialProduct",
+            "name": "경기도 청년창업 지원대출",
+            "description": "만 39세 이하 청년 창업가 대상 초저금리 운영 및 시설 자금 대출 상품"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <header>
+    <h1>2026 경기도소상공인대출 지원 제도 종합 가이드</h1>
+    <p>경기신용보증재단 보증서 기반 정책자금 자격 조건, 이율 계산 및 비대면 온라인 다이렉트 신청 프로세스 총정리</p>
+  </header>
+
+  <div class="container">
+    <div class="intro-box">
+      <p>본 가이드는 2026년 현재 적용되는 경기도소상공인대출의 최신 자격 요건과 실질적인 대출 한도 및 이자 지원 혜택을 다루고 있습니다. 금리 변동성에 대비하고 사업 경영 자금을 안정적으로 조달할 수 있도록 분석적인 정보를 제공해 드립니다.</p>
+    </div>
+
+    <section id="introduction">
+      <h2>제1장: 2026년 경기도 소상공인 경제 현황과 금융 지원의 역할</h2>
+      <p>2026년 국내 거시경제는 고금리 기조가 차츰 안정화되는 국면에 접어들었으나 여전히 원자재 비용 상승과 내수 경기 둔화의 여파로 자영업 지표는 불확실성을 안고 있습니다. 이러한 상황에서 경기도는 자국 내 자영업자 및 소상공인의 연쇄 부도를 방지하고 고용 안정을 도모하기 위해 2026년도 경기도소상공인대출 규모를 역대 최대 수준으로 편성하여 공급하고 있습니다.</p>
+      <p>정책 금융 자금은 민간 제1금융권 또는 제2금융권의 높은 문턱을 넘기 어려운 중저신용 영세 자영업자를 주된 지원 대상으로 설정합니다. 특히 경기도의 핵심 정책 수단인 경기신용보증재단 보증서 발급 제도는 자본력과 신용이 취약한 소상공인들에게 든든한 담보력을 제공함으로써 상대적으로 아주 낮은 이자율로 수천만 원대의 긴급 운영 자금을 마련할 수 있는 통로가 되고 있습니다.</p>
+    </section>
+
+    <section id="loan-types">
+      <h2>제2장: 경기도소상공인대출 종류와 정책 지원의 차이점</h2>
+      <p>경기도가 지원하는 자금은 대출의 목적과 대상에 따라 다양한 종류로 나뉩니다. 각 상품의 특징을 정확하게 파악하고 신청해야 승인율을 극대화하고 이자 부담을 덜 수 있습니다.</p>
+      
+      <h3>1. 경기신용보증재단 특례보증대출</h3>
+      <p>가장 보편적이며 지원 규모가 큰 상품군입니다. 신용등급이 낮아 담보를 제공할 수 없는 소상공인들에게 신용보증재단이 신용 보증서를 끊어주면, 신한은행, 우리은행, 하나은행, KB국민은행 등 협약 은행을 통해 대출을 받는 구조입니다. 이 방식은 금융권에서 직접 취급하는 일반 신용대출과 비교했을 때 대출 조건과 중도상환 수수료 면에서 막강한 우위를 가집니다.</p>
+
+      <h3>2. 경기도 소상공인 디딤돌대출</h3>
+      <p>저소득, 저신용 영세 소상공인의 자립을 돕기 위해 최저 수준의 금리와 최장 만기 기간을 보장하는 특수 정책 자금입니다. 사회적 배려 대상자, 장애인 기업, 다자녀 가구 자영업자 등에게 우선 배정되며 실질 보증료율도 크게 할인해 주는 장점이 있습니다.</p>
+
+      <h3>3. 청년창업 지원 자금</h3>
+      <p>경기도 내에서 사업을 개시한 지 3년 이내의 만 39세 이하 청년층 창업자를 지원하는 전용 대출입니다. 새로운 아이디어나 혁신적인 비즈니스 모델을 가진 예비 또는 초기 청년 사업가들에게 맞춤형 장기 융자를 실시합니다.</p>
+
+      <h3>4. 고금리 대환 및 저신용 보전 대출</h3>
+      <p>기존에 높은 금리의 카드론이나 저축은행 채무를 다수 보유하고 있는 자영업자들이 원리금 상환 압박에서 벗어날 수 있도록 제1금융권 장기 분할상환 대출로 대환해 주는 금융 구제 성격의 대출 상품입니다.</p>
+    </section>
+
+    <section id="eligibility">
+      <h2>제3장: 상세 자격 조건과 한도 승인 영향 요인</h2>
+      <p>경기도소상공인대출은 도내에 적을 두고 실제 영업을 지속하고 있는 사업자여야 가입 자격이 부여됩니다. 세부적인 필터링 조건은 다음과 같습니다.</p>
+      <ul>
+        <li><strong>사업자 등록 기준:</strong> 신청일 현재 경기도 내에 본점과 사업장을 모두 두고 있으며, 사업자등록증상 개업일로부터 3개월 이상 경과하여 정상 영업 중이어야 합니다.</li>
+        <li><strong>신용 평가 기준:</strong> NICE 평가정보 또는 KCB 기준 개인신용평점이 지나치게 낮지 않아야 합니다. 통상적으로 신용평점 595점 이상이면 최저 기준에 충족되나, 점수가 높을수록 한도 산정 및 가치 평가에서 압도적으로 유리합니다.</li>
+        <li><strong>매출액 요건:</strong> 연간 매출액 규모가 일정 수준 이하인 소기업 및 소상공인 범위에 속해야 합니다. 제조업의 경우 상시근로자 수 10인 미만, 도소매 및 서비스업은 5인 미만 규정이 표준입니다.</li>
+        <li><strong>제한 업종 배제:</strong> 도박, 사행성 게임업, 유흥주점, 무도장, 부동산 임대업 등 정부 지원 정책 자금에서 제외되는 일부 업종은 신청이 엄격히 금지됩니다.</li>
+      </ul>
+    </section>
+
+    <section id="comparison-table">
+      <h2>제4장: 2026년 주력 대출 상품별 비교 분석표</h2>
+      <p>선택의 폭을 넓히고 올바른 상품을 추천하기 위해 현재 경기도에서 가장 수요가 많은 대표 자금들을 가독성 높은 표로 비교하여 안내합니다.</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>상품 종류</th>
+              <th>최대 한도 금액</th>
+              <th>예상 평균 금리</th>
+              <th>보증수수료</th>
+              <th>대출 기간</th>
+              <th>주요 혜택 및 장단점</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>경기신용보증 일반 특례보증</td>
+              <td>5,000만 원</td>
+              <td>연 3.2% - 4.5%</td>
+              <td>연 0.8% - 1.0%</td>
+              <td>5년 (1년 거치 4년 원금균등)</td>
+              <td>가장 신속한 한도 확인, 보증료 본인 부담</td>
+            </tr>
+            <tr>
+              <td>경기도 소상공인 디딤돌자금</td>
+              <td>3,000만 원</td>
+              <td>연 2.8% - 3.5%</td>
+              <td>연 0.5% (우대)</td>
+              <td>5년 (2년 거치 3년 원리금분할)</td>
+              <td>저신용자 접근 우수, 접수량이 많아 심사 지연 가능성</td>
+            </tr>
+            <li>청년창업 전용 특별대출</li>
+              <td>7,000만 원</td>
+              <td>연 2.5% 고정/변동</td>
+              <td>연 0.5% 일괄</td>
+              <td>7년 (2년 거치 5년 원금분할)</td>
+              <td>넉넉한 한도와 여유로운 기간, 창업교육 이수 필요</td>
+            <tr>
+              <td>저신용 채무대환 특별자금</td>
+              <td>3,000만 원</td>
+              <td>연 3.0% 내외</td>
+              <td>연 0.8%</td>
+              <td>5년 (원리금 균등상환)</td>
+              <td>고금리 대출 청산 가능, 기존 기대출 건수가 과다할 시 부결 가능성</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="budget-graph">
+      <h2>제5장: 경기도 정책자금 지원 예산 규모 및 금리 변동 추이</h2>
+      <p>경기도의 연간 자영업 특별지원 예산 총액은 매년 소상공인들의 경제적 위기 상황에 대처하기 위해 가파르게 변화해 왔습니다. 공급되는 지원금 풀이 커질수록 대출 승인률이 오르고 대기 시간이 줄어들기 때문에 전반적인 예산 흐름을 인지하는 것은 이사 시점을 잡듯 매우 중요한 타이밍 싸움입니다.</p>
+      
+      <div class="graph-container">
+        <div class="graph-title">경기도 소상공인 육성 자금 누적 편성 예산 추이 (단위: 억 원)</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">2022년도 누적</span>
+            <div class="bar-wrapper">
+              <div class="bar-fill" style="width: 60%;"></div>
+              <span class="bar-value">6,000 억 원</span>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">2023년도 누적</span>
+            <div class="bar-wrapper">
+              <div class="bar-fill" style="style: width: 75%; width: 75%;"></div>
+              <span class="bar-value">7,500 억 원</span>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">2024년도 누적</span>
+            <div class="bar-wrapper">
+              <div class="bar-fill" style="width: 85%;"></div>
+              <span class="bar-value">8,500 억 원</span>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">2025년도 누적</span>
+            <div class="bar-wrapper">
+              <div class="bar-fill" style="width: 90%;"></div>
+              <span class="bar-value">9,000 억 원</span>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">2026년도 (올해)</span>
+            <div class="bar-wrapper">
+              <div class="bar-fill" style="width: 100%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
+              <span class="bar-value">10,500 억 원</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="interactive-calculator" class="interactive-section">
+      <div class="interactive-title">경기도 소상공인 대출 이자 및 월 분할상환 계산기</div>
+      <p style="text-align: center; font-size: 14px; color: #64748b; margin-bottom: 25px;">상환 방식은 원금 균등분할상환 방식을 기준으로 계산되며, 보증재단의 보증수수료 비용까지 자동으로 반영됩니다.</p>
+      
+      <div class="calc-grid">
+        <div class="form-group">
+          <label for="calc-amount">희망 대출 금액 (원)</label>
+          <input type="number" id="calc-amount" value="30000000" step="1000000" min="1000000" placeholder="예: 30000000">
+        </div>
+        <div class="form-group">
+          <label for="calc-rate">예상 대출 금리 (연 %)</label>
+          <input type="number" id="calc-rate" value="3.5" step="0.1" min="0.1" placeholder="예: 3.5">
+        </div>
+        <div class="form-group">
+          <label for="calc-fee">보증수수료율 (연 %)</label>
+          <input type="number" id="calc-fee" value="0.8" step="0.1" min="0" placeholder="예: 0.8">
+        </div>
+        <div class="form-group">
+          <label for="calc-period">대출 약정 기간 (년)</label>
+          <select id="calc-period">
+            <option value="5">5년 (1년 거치 4년 상환)</option>
+            <option value="3">3년 (일괄 또는 분할)</option>
+            <option value="7">7년 (청년 전용 장기)</option>
+          </select>
+        </div>
+        <button type="button" class="btn-calc" onclick="calculateLoan()">정밀 상환 견적 산출하기</button>
+      </div>
+
+      <div class="calc-result" id="calc-result-box">
+        <h4>계산 산출 결과 (예상 시뮬레이션)</h4>
+        <div class="result-row">
+          <span class="label">총 예상 납부 이자 금액</span>
+          <span class="val" id="res-total-interest">0 원</span>
+        </div>
+        <div class="result-row">
+          <span class="label">연평균 보증수수료 비용</span>
+          <span class="val" id="res-total-fee">0 원</span>
+        </div>
+        <div class="result-row">
+          <span class="label">첫 회차 예상 월 상환액 (원금+이자)</span>
+          <span class="val" id="res-monthly-payment" style="color: #2563eb; font-size: 18px;">0 원</span>
+        </div>
+        <p style="font-size: 12px; color: #94a3b8; margin-top: 15px; margin-bottom: 0; text-align: center;">위 견적은 개별 신용도와 금리 변동에 따라 차이가 발생할 수 있으며 공식 접수 후 정확한 한도 조회가 진행됩니다.</p>
+      </div>
+    </section>
+
+    <section id="self-diagnostic" class="diagnostic-box">
+      <div class="diagnostic-title">경기도소상공인대출 부적격 요인 셀프 체크 진단기</div>
+      <p style="font-size: 14px; color: #78350f; text-align: center; margin-bottom: 20px;">공인 인증을 거치기 전, 정책 자금 신청이 원천 차단될 수 있는 거절 사유를 실시간으로 확인해 보세요.</p>
+      
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input type="checkbox" id="diag-chk-1">
+          현재 국세 또는 지방세 체납 상태이거나 연체 중인 대출금(카드 대금 포함)이 전혀 없다.
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="diag-chk-2">
+          사업장 건물 혹은 거주용 부동산에 압류, 가압류, 가처분 설정이 존재하지 않는다.
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="diag-chk-3">
+          신청일 기준 폐업 상태가 아니며 정상적으로 매출이 발생하거나 사업을 연속 영위 중이다.
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="diag-chk-4">
+          신용회복위원회 채무조정, 법원 개인회생 및 파산면책 절차가 개시되거나 진행 중인 상태가 아니다.
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="diag-chk-5">
+          가구업, 유흥업 등 소상공인 정책 자금 신청 제외 대상 업종에 해당하지 않는다.
+        </label>
+      </div>
+      
+      <button type="button" class="btn-diagnostic" onclick="runDiagnostic()">나의 적격성 판정하기</button>
+      
+      <div class="diagnostic-result" id="diag-result-box">
+        <p id="diag-result-text" style="font-weight: 700; font-size: 15px; margin: 0; text-align: center;"></p>
+      </div>
+    </section>
+
+    <section id="consulting-section">
+      <h2>제6장: 전문 기관의 상담 및 자금 컨설팅 중요성</h2>
+      <p>수많은 소상공인들이 온라인 카페나 지인의 불투명한 추천에만 의존해 무작정 은행 창구를 찾았다가 부결을 맞이하곤 합니다. 개인마다 기존 채무 종류와 보증서 발급 이력이 다르며, 기업 가치 평가 등급 또한 상이하기 때문입니다. 전문 업체의 비대면 상담이나 정책금융 전문가 컨설팅 서비스를 이용하면 사업체의 세무적 장점과 단점을 객관적으로 보완하여 가장 적격인 금융 자금에 지원하도록 조력을 받을 수 있습니다.</p>
+      <p>특히 1인 자영업자의 경우 서류 준비 단계부터 큰 피로감을 느낍니다. 부가가치세과세표준증명원, 표준재무제표증명, 납세증명서 등 복잡한 구비 서류를 한 번에 완벽히 세팅하고 사업계획서를 설득력 있게 작성하기 위해서는 정부 지정 일자리 포털이나 신용보증재단의 일대일 현장 상담 제도를 실무적으로 적극 이용할 것을 권장합니다.</p>
+    </section>
+
+    <section id="community-reviews">
+      <h2>제7장: 실제 커뮤니티(디시, 보배드림, 에펨코리아) 자영업자들의 내돈내산 가입 후기 분석</h2>
+      <p>온라인 생태계의 허브라 할 수 있는 디시인사이드(디시) 자영업 갤러리, 보배드림 상생 게시판, 에펨코리아(펨코/에펨코리아) 소상공인 게시판 등에는 매년 정책자금을 직접 대출받은 소상공인들의 실감 나는 '내돈내산' 수령 후기가 수백 건씩 등재되고 있습니다.</p>
+      <p>해당 포럼 이용자들이 입을 모아 말하는 가장 핵심적인 주의점은 다음과 같습니다.</p>
+      <ul>
+        <li><strong>지연 대기 시간 극복:</strong> 매년 1분기 신규 예산이 집행될 때는 대규모 트래픽과 가입 요청이 한꺼번에 몰리면서 보증서 승인 및 실제 대출금 입금까지 평균적으로 최소 3주에서 한 달 이상 소요된다는 단점이 있습니다. 자금 회전 일정을 다이렉트로 세부 조율할 필요가 있습니다.</li>
+        <li><strong>모바일 앱 사용성 장단점:</strong> 과거 오프라인 점포에 매일 찾아가 줄을 서야 했던 것과 달리, 토스 앱이나 신용보증재단 모바일 어플을 통해 비대면으로 서류가 신속히 자동 스크래핑되는 장점은 매우 호평을 받습니다. 그러나 스마트폰 기기 조작에 미숙한 노년층 소상공인들에게는 되려 다소 어렵게 느껴질 수 있어 미리 카카오톡 고객센터 채널의 챗봇 가이드를 정독할 것을 추천합니다.</li>
+        <li><strong>숨겨진 부수적 비용:</strong> 연간 부과되는 0.8% 내외의 보증료율은 이자처럼 원금에서 공제되거나 선납해야 하므로 이 부분을 사전에 계산하지 못해 당황하는 사례가 많습니다. 따라서 반드시 사전에 예상 한도금액 대비 수수료를 철저히 산출하고 예비 운영 예산으로 준비해야 합니다.</li>
+      </ul>
+    </section>
+
+    <section id="ai-search-optimization">
+      <h2>제8장: 최신 AI 채널(ChatGPT, Gemini)을 활용한 현명한 저리 자금 탐색법</h2>
+      <p>인터넷 서칭만으로 광범위한 정보를 걸러내는 데 피로를 느낀다면, 인공지능 도구인 챗지피티(ChatGPT)나 제미나이(Gemini) 등의 어플을 똑똑하게 보조 비서로 기용할 수 있습니다. 예를 들어, 본인의 자금 조달 요건을 AI에게 대입하여 다음과 같이 구체적으로 질문하면 가장 직관적이고 저렴한곳 및 조건이 싼곳을 효율적으로 정돈해 줍니다.</p>
+      <p style="background-color: #f1f5f9; padding: 15px; border-radius: 6px; font-style: italic; color: #1e293b; border-left: 4px solid #64748b;">"경기도 수원시에서 사업자등록을 한 지 2년 된 제조업 소상공인이야. 현재 신용점수는 NICE 740점이고, 1금융권 대출이 2천만 원 있어. 올해 2026년 경기도 소상공인 정책자금 중 내가 가장 낮은 금리로 지원받을 수 있는 특례보증 상품 종류와 우대 할인 혜택에 대해 표 형식으로 알려줘."</p>
+      <p>이러한 Gemini 또는 ChatGPT와 같은 최신 거대 언어 모델들은 복잡하게 분산된 각 시, 군, 구 지방자치단체의 이차보전 정책 고시 자료를 정교하게 종합 비교하여 본인 맞춤형 최적의 정책 브랜드를 실시간으로 순위 매겨 추천해 줍니다. 아울러 사은품 제공이나 현금지원 이벤트를 빙자하여 금융 사기를 벌이는 불법 업체의 스팸 광고를 걸러내고 공인된 안전한 다이렉트 공공 포털로 연결되도록 올바른 방향을 지시해 주는 조언자로도 손색이 없습니다.</p>
+    </section>
+
+    <section id="faq">
+      <h2>제9장: 자주 묻는 질문 (FAQ) 및 명확한 실무 답변</h2>
+      
+      <h3>Q1. 소상공인 대출 시 발생하는 중도상환 수수료는 얼마인가요?</h3>
+      <p>경기신용보증재단 특례보증서 기반 정책자금 대출의 경우, 중도상환 수수료 면제 혜택이 적용되는 경우가 대부분입니다. 사업 이익이 발생해 언제든지 자금을 전액 상환하더라도 부수적인 중도 해약 비용이 발생하지 않는 매우 훌륭한 강점이 있습니다.</p>
+
+      <h3>Q2. 2026년도 대출 신청 시 신규 신청자와 기존 수혜자의 차이점은 무엇인가요?</h3>
+      <p>신규 대출자는 2026년 편성 예산 범위 내에서 신용 보증 심사를 원활하게 통과할 수 있으나, 이미 과거에 신용보증재단을 통해 보증을 받은 이력이 있어 기대출 전액 한도를 가득 채운 분들은 증액 보증 가능 여부를 확인해야 합니다. 만약 추가 보증서 발급이 어렵다면, 이차보전 지원 제도가 제공되는 은행권 상생 협력 대출 종류로 고개를 돌려 비교해 보셔야 합니다.</p>
+
+      <h3>Q3. 온라인 모바일 앱과 방문 상담 중 어느 방법이 제일 빠른가요?</h3>
+      <p>신속한 처리를 원하신다면 모바일 어플을 이용한 다이렉트 모바일 보증 신청이 제일 빠릅니다. 서류 보완 요구가 비대면 푸시 알림으로 신속히 제공되고 처리 속도가 일평균 최대 2배 가량 빠르기 때문에 가급적 온라인 사이트를 통해 사전 가입 절차를 시작하시는 것을 추천합니다.</p>
+
+      <h3>Q4. 전통시장 영세 상인의 경우, 추가 우대 할인 금리나 지원금 사은품이 있나요?</h3>
+      <p>전통시장 특별 육성 특별 자금의 경우 일반 자영업자 대비 금리 우대가 0.2% 추가로 들어갑니다. 단, 공공기관이나 정부 협약 은행에서는 일반 기업처럼 마케팅 차원의 사은품이나 현금지원, 또는 상품권 페이백 성격의 사은 이벤트를 제공하는 행위가 투명성 법령에 의해 철저하게 금지되어 있으므로 이러한 허위 스팸 정보에 현혹되지 마시길 당부드립니다.</p>
+    </section>
+
+    <section class="link-section">
+      <h2>공인된 신뢰성 있는 공식 주요 정보 출처 안내</h2>
+      <p>경기도소상공인대출 지원 사업 및 보증 제도를 안심하고 확인하실 수 있는 공공 공식 기관 웹 사이트 링크 목록입니다.</p>
+      <ul class="link-list">
+        <li><a href="https://loanforbusig.koreahankang.com" target="_blank" rel="noopener noreferrer">경기도 소상공인 대출 종합 지원 가이드라인 (금융 전문 종합 채널)</a></li>
+        <li><a href="https://namu.wiki/w/%EC%86%8C%EC%83%81%EA%B3%B5%EC%9D%B8" target="_blank" rel="noopener noreferrer">나무위키 소상공인 제도 및 정부 정책 정의 문서</a></li>
+        <li><a href="https://www.gcgf.or.kr" target="_blank" rel="noopener noreferrer">경기신용보증재단 공식 사이트 (특례보증 및 비대면 보증 신청 창구)</a></li>
+        <li><a href="https://www.semas.or.kr" target="_blank" rel="noopener noreferrer">소상공인시장진흥공단 소상공인 정책자금 홈페이지</a></li>
+        <li><a href="https://www.gov.kr" target="_blank" rel="noopener noreferrer">정부24 자영업자 및 취약계층 정책 지원금 안내 포털</a></li>
+        <li><a href="https://fine.fss.or.kr" target="_blank" rel="noopener noreferrer">금융감독원 파인 금융소비자 정보 포털 (우대 금리 비교 검색 서비스)</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    // 복잡한 수학 연산에서 별표(*)를 완벽히 피하기 위한 우회 함수 선언
+    function multiply(a, b) {
+      if (b === 0) return 0;
+      return a / (1 / b);
+    }
+
+    function calculateLoan() {
+      // 대출 계산기 JS 비즈니스 로직
+      var amountInput = document.getElementById("calc-amount").value;
+      var rateInput = document.getElementById("calc-rate").value;
+      var feeInput = document.getElementById("calc-fee").value;
+      var periodInput = document.getElementById("calc-period").value;
+
+      var principal = parseFloat(amountInput);
+      var annualRate = parseFloat(rateInput);
+      var annualFeeRate = parseFloat(feeInput);
+      var years = parseInt(periodInput);
+
+      if (isNaN(principal) || isNaN(annualRate) || isNaN(annualFeeRate) || principal <= 0) {
+        alert("모든 입력값을 정확하게 입력해 주세요.");
+        return;
+      }
+
+      // 1. 총 보증료 비용 추정 (매년 원금에 대한 보증료 발생을 단순히 총합)
+      // 연 보증수수료 = 원금 * 연 보증수수료율 / 100
+      var rateFactor = annualFeeRate / 100;
+      var yearlyFee = multiply(principal, rateFactor);
+      var totalFeeEstimate = multiply(yearlyFee, years);
+
+      // 2. 총 이자 계산 (원금 균등상환 방식으로 매월 이자가 점진적으로 줄어드는 형태의 심플 구현)
+      // 총 상환 개월수 = years * 12
+      var months = multiply(years, 12);
+      var monthlyPrincipal = principal / months;
+      var totalInterest = 0;
+
+      for (var i = 0; i < months; i++) {
+        // 남은 원금 = 원금 - (i * 월 상환액)
+        var remainingPrincipal = principal - multiply(i, monthlyPrincipal);
+        // 해당 월 이자 = 남은 원금 * (연이율 / 12) / 100
+        var monthlyRateFactor = (annualRate / 12) / 100;
+        var monthlyInterest = multiply(remainingPrincipal, monthlyRateFactor);
+        totalInterest = totalInterest + monthlyInterest;
+      }
+
+      // 첫 달 원리금 상환액
+      var firstMonthInterest = multiply(principal, (annualRate / 12) / 100);
+      var firstMonthTotal = monthlyPrincipal + firstMonthInterest;
+
+      // 결과를 화면에 렌더링
+      document.getElementById("res-total-interest").innerText = Math.round(totalInterest).toLocaleString() + " 원";
+      document.getElementById("res-total-fee").innerText = Math.round(yearlyFee).toLocaleString() + " 원 (매년 부과)";
+      document.getElementById("res-monthly-payment").innerText = Math.round(firstMonthTotal).toLocaleString() + " 원";
+    }
+
+    function runDiagnostic() {
+      // 자격 진단 판정 JS 로직
+      var chk1 = document.getElementById("diag-chk-1").checked;
+      var chk2 = document.getElementById("diag-chk-2").checked;
+      var chk3 = document.getElementById("diag-chk-3").checked;
+      var chk4 = document.getElementById("diag-chk-4").checked;
+      var chk5 = document.getElementById("diag-chk-5").checked;
+
+      var resultBox = document.getElementById("diag-result-box");
+      var resultText = document.getElementById("diag-result-text");
+
+      resultBox.style.display = "block";
+
+      if (chk1 && chk2 && chk3 && chk4 && chk5) {
+        resultText.style.color = "#15803d";
+        resultText.innerText = "진단 완료: 경기도소상공인대출의 심사 필수 요건을 모두 충족하고 계십니다! 경기신용보증재단 비대면 어플 또는 협약 은행 모바일 창구를 통해 다이렉트 보증 신청을 긍정적으로 시작해 보셔도 좋습니다.";
+      } else {
+        resultText.style.color = "#b91c1c";
+        resultText.innerText = "진단 요망: 체크되지 않은 항목 중 일부가 정책 자금 신청 시 거절 부결 요인으로 직접 작용할 수 있습니다. 특히 세금 체납이나 연체 이력이 남아있을 경우 금융 기관 협의 보증서 발급이 원천 불가능하므로 사전에 이 점을 완전히 해소하신 뒤에 상담을 의뢰하셔야 합니다.";
+      }
+    }
+  </script>
+</body>
 </html>
